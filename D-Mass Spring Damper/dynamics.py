@@ -49,7 +49,7 @@ class Dynamics:
     # Returns the observable states
     def Outputs(self):
         # Return them in a list and not a matrix
-        return self.state[0:1].T.tolist()[0]
+        return self.state[0:2].T.tolist()[0]
 
     # Returns all current states
     def States(self):

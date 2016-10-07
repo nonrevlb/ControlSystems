@@ -42,11 +42,18 @@ class Dynamics:
         stheta = np.sin(theta);
 
         # The equations of motion.
+        # thetaddot = (1.0/((P.m2*P.l**2)/3.0 + P.m1*z**2))* \
+        #             (-P.m2*P.g*P.l/2.0*ctheta + P.l*F*ctheta -
+        #                 2.0*P.m1*z*zdot*thetadot)
+        #
+        # zddot = (1.0/P.m1)*(P.m1*z*thetadot**2-P.m1*P.g*stheta)
         M = np.matrix([[P.m1,                  0],
                        [0, P.m2*P.l*P.l/3+P.m1*z*z]])
 
         C = np.matrix([[P.m1*z*thetadot*thetadot-P.m1*P.g*stheta],
                        [F*P.l*ctheta-2*P.m1*z*zdot*thetadot-P.m1*P.g*z*ctheta-P.m2*P.g*P.l/2*ctheta]])
+        # C = np.matrix([[P.m1*z*thetadot*thetadot-P.m1*P.g*stheta],
+        #                [F*P.l*ctheta-2*P.m1*z*zdot*thetadot-P.m2*P.g*P.l/2*ctheta]])
 
         tmp = np.linalg.inv(M)*C
 
@@ -62,7 +69,7 @@ class Dynamics:
     # Returns the observable states
     def Outputs(self):
         # Return them in a list and not a matrix
-        return self.state[0:2].T.tolist()[0]
+        return self.state[0:4].T.tolist()[0]
 
     # Returns all current states
     def States(self):
