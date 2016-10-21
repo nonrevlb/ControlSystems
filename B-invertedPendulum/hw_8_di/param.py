@@ -28,7 +28,7 @@ thetadot0 = 0.0         # ,rads/s
 F_max = 5             		  # Max Force, N
 error_max = 1        		  # Max step size,m
 theta_max = 30.0*np.pi/180.0  # Max theta, rads
-M = 14 #25.0             		  # Time scale separation between
+M = 25.0             		  # Time scale separation between
 					 		  # inner and outer loop
 
 #---------------------------------------------------
@@ -43,7 +43,7 @@ th_a0 = -2.0*(m1+m2)*g/(m2*ell)
 # Desired Closed Loop tuning parameters
 # S**2 + 2*zeta*wn*S + wn**2
 
-th_tr = 0.5 #0.45          # Rise time, s
+th_tr = 0.45          # Rise time, s
 th_zeta = 0.707       # Damping Coefficient
 th_wn = 2.2/th_tr     # Natural frequency
 

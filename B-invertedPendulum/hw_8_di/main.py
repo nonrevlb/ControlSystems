@@ -3,9 +3,9 @@ import sys
 import numpy as np 
 import matplotlib.pyplot as plt 
 import param as P 
-from step import step_function
+from signal_generator import Signals
 from sim_plot import plotGenerator 
-import controllerPD as ctrl
+from controllerPD import controllerPD
 
 # The Animation.py file is kept in the parent directory,
 # so the parent directory path needs to be added.
@@ -24,7 +24,9 @@ t_pause = 0.01  # Pause between each iteration
 
 
 
+sig_gen = Signals()                 # Instantiate Signals class
 plotGen = plotGenerator()           # Instantiate plotGenerator class
+ctrl = controllerPD()               # Instantiate controllerPD class
 simAnimation = PendulumAnimation()  # Instantiate Animate class
 dynam = PendulumDynamics()          # Instantiate Dynamics class
 
@@ -33,14 +35,14 @@ t = t_start               # Declare time variable to keep track of simulation ti
 while t < t_end:
 
     # Get referenced inputs from signal generators
-	ref_input = [step_function(t,0.5,1)] 
+	ref_input = sig_gen.getRefInputs(t) 
 
 	# The dynamics of the model will be propagated in time by t_elapse 
 	# at intervals of t_Ts.
 	t_temp = t +t_elapse
 	while t < t_temp:
 		
-		states = dynam.States()              # Get current states
+		states = dynam.Outputs()             # Get current states
 		u = ctrl.getForces(ref_input,states) # Calculate the forces
 		dynam.propagateDynamics(u)           # Propagate the dynamics of the model in time
 		t = round(t +t_Ts,2)                 # Update time elapsed

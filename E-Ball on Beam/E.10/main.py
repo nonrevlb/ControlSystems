@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import param as P
 from step import step_function
 from sim_plot import plotGenerator
-import controllerPD as ctrl
+from controllerPD import controllerPD
 
 # The Animation.py file is kept in the parent directory,
 # so the parent directory path needs to be added.
@@ -14,21 +14,22 @@ from dynamics import Dynamics
 from animation import Animation
 
 t_start = 0.0   # Start time of simulation
-t_end = 20.0    # End time of simulation
+t_end = 30.0    # End time of simulation
 t_Ts = P.Ts     # Simulation time step
 t_elapse = 0.01  # Simulation time elapsed between each iteration
 t_pause = 0.01  # Pause between each iteration
 
 
 plotGen = plotGenerator()           # Instantiate plotGenerator class
-//simAnimation = Animation()  # Instantiate Animate class
+# simAnimation = Animation()  # Instantiate Animate class
+ctrl = controllerPD()
 dynam = Dynamics()          # Instantiate Dynamics class
 
 t = t_start               # Declare time variable to keep track of simulation time elapsed
 
 while t < t_end:
 
-    ref_input = [.1+step_function(t,2,12,0.3)]
+    ref_input = [.1+step_function(t,2,22,0.3)]
 
     # The dynamics of the model will be propagated in time by t_elapse
     # at intervals of t_Ts.
@@ -37,7 +38,7 @@ while t < t_end:
 
         states = dynam.States()              # Get current states
         u = ctrl.getForces(ref_input,states) # Calculate the forces
-        dynam.propagateDynamics(ref_input)           # Propagate the dynamics of the model in time
+        dynam.propagateDynamics(u)           # Propagate the dynamics of the model in time
         t = round(t +t_Ts,2)                 # Update time elapsed
 
     # plt.figure(simAnimation.fig.number) # Switch current figure to animation figure

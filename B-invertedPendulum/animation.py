@@ -13,7 +13,7 @@ class PendulumAnimation:
 		self.handle = []                      # Initializes a list object that will 
 		                                      # be used to contain handles to the  
 		                                      # patches and line objects.
-		plt.axis([-2*P.ell,2*P.ell, -0.1, 3*P.ell]) # Change the x,y axis limits
+		plt.axis([-3*P.ell,3*P.ell, -0.1, 3*P.ell]) # Change the x,y axis limits
 		plt.plot([-2*P.ell,2*P.ell],[0,0],'b--')    # Draw a base line
 
 		# Draw pendulum is the main function that will call the functions: 
