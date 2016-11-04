@@ -89,7 +89,7 @@ class zPID_ctrl:
       self.error_d1 = error 
 
       # PID Control to calculate T
-      theta_r_unsat = self.kp*error + self.kd*self.differentiator
+      theta_r_unsat = self.kp*error + self.kd*self.differentiator + self.ki*self.integrator
 
       theta_r_sat = self.saturate(theta_r_unsat)
       

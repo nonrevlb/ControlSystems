@@ -33,7 +33,7 @@ class Signals:
 
 	#SECTION 1
 	##################################################################
-		self.handle.append(mySignal(0.5,0.1)) # z
+		self.handle.append(mySignal(0.5,0.01)) # z
 	##################################################################
 
 	# This function returns the values of the signal generator as 
@@ -44,15 +44,16 @@ class Signals:
 		ref_inputs = []
 		for i in range(len(self.handle)):
 			ref_inputs.append(self.handle[i].signal(t))
-		return ref_inputs
+		return ref_inputs 
 
 
 class mySignal:
 
-	def __init__(self,A = 1,f = 1,signal_type = 'square_wave', phase = 0):      
+	def __init__(self,A = 1,f = 1,offset = 0, signal_type = 'square_wave', phase = 0):      
 		self.A = A                  # Amplitude of the signal
 		self.f = f                  # Frequency of the signal, Hz
 		self.phase = phase          # Phase of the signal, Radians
+		self.offset = offset        # Offset of signal
 
 		if signal_type == 'square_wave':
 			self.signal = self.square_wave 
@@ -66,13 +67,13 @@ class mySignal:
 			print("input signal type not recognized")
 
 	def square_wave(self,t):
-		  return self.A*signal.square((2*np.pi*self.f*t+self.phase), duty = 0.5)
+		  return self.A*signal.square((2*np.pi*self.f*t+self.phase), duty = 0.5) +self.offset
 
 	def sawtooth_wave(self,t):
-	  return self.A*signal.sawtooth((2*np.pi*self.f*t + self.phase), width = 0)
+	  return self.A*signal.sawtooth((2*np.pi*self.f*t + self.phase), width = 0)+self.offset
 
 	def triangle_wave(self,t):
-	  return self.A*signal.sawtooth((2*np.pi*self.f*t + self.phase), width = 0.5)
+	  return self.A*signal.sawtooth((2*np.pi*self.f*t + self.phase), width = 0.5)+self.offset
 
 	def random_wave(self,t):
-	  return self.A*np.random.rand()
+	  return self.A*np.random.rand()+self.offset

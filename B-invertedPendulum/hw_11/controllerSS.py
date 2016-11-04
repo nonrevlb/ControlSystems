@@ -20,7 +20,6 @@ class controllerSS:
       theta = y[1]
       
       F = self.SSCtrl.SS_loop(z_r,z,theta) # Calculate the force output
-      print(F)
       return [F]
 
 

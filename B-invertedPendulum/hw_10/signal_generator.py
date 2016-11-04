@@ -76,4 +76,4 @@ class mySignal:
 	  return self.A*signal.sawtooth((2*np.pi*self.f*t + self.phase), width = 0.5)+self.offset
 
 	def random_wave(self,t):
-	  return self.A*np.random.rand()
+	  return self.A*np.random.rand()+self.offset

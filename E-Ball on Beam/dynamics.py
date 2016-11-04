@@ -1,6 +1,5 @@
 import numpy as np
 import param as P
-import controllerPD as ctrl
 
 class Dynamics:
 

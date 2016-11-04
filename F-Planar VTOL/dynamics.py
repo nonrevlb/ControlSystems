@@ -1,6 +1,5 @@
 import numpy as np
 import param as P
-import controllerPD as ctrl
 
 
 
@@ -52,7 +51,7 @@ class Dynamics:
                        [0, P.mc+2*P.mr, 0],
                        [0, 0, P.Jc+2*P.mr*P.d*P.d]])
 
-        C = np.matrix([[-(Fr+Fl)*stheta-P.mu*zdot],
+        C = np.matrix([[-(Fr+Fl)*stheta-P.mu*zdot+P.F_wind],
                        [(Fr+Fl)*ctheta-(P.mc+2*P.mr)*P.g],
                        [P.d*(Fr-Fl)]])
 
