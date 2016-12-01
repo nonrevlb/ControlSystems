@@ -6,10 +6,10 @@ class Dynamics:
     def __init__(self):
 
         # Initial state conditions
-        self.state = np.matrix([[P.z0],         # z initial position
-                                [P.theta0],     # Theta initial orientation
-                                [P.zdot0],      # zdot initial velocity
-                                [P.thetadot0]]) # Thetadot initial velocity
+        self.state = np.matrix([[P.zdot0],         # z initial position
+                                [P.thetadot0],     # Theta initial orientation
+                                [P.z0],      # zdot initial velocity
+                                [P.theta0]]) # Thetadot initial velocity
 
     def propagateDynamics(self,u):
         # P.Ts is the time step between function calls.
@@ -26,17 +26,24 @@ class Dynamics:
     def Derivatives(self,state,u):
 
         # States and forces
-        z = state.item(0)
-        theta = state.item(1)
-        zdot = state.item(2)
-        thetadot = state.item(3)
+        zdot = state.item(0)
+        thdot = state.item(1)
+        z = state.item(2)
+        th = state.item(3)
 
-        # calculate the control input (force) based on
-        F = u
+        F = u[0]
 
-        thetaddot = ((F[0]+P.input_disturbance)*P.l*np.cos(theta)-2.0*P.m1*z*zdot*thetadot-P.m1*P.g*z*np.cos(theta)-P.m2*P.g*P.l*np.cos(theta)/2)/(P.m2*P.l**2/3+P.m1*z**2)
-        zddot = (1.0/P.m1)*(P.m1*z*thetadot**2.0-P.m1*P.g*np.sin(theta))
-        xdot = np.matrix([[zdot],[thetadot],[zddot],[thetaddot]])
+        M = np.matrix([[(P.mc+P.m), P.m*P.L*np.cos(th)],
+                        [np.cos(th), P.L ]])
+
+        RHS = np.matrix([[-P.b*zdot + P.m*P.L*thdot**2*np.sin(th) + F],
+                        [-P.g*np.sin(th)]])
+
+        ddot = np.linalg.inv(M)*RHS
+        zddot = ddot.item(0)
+        thddot = ddot.item(1)
+
+        xdot = np.matrix([[zddot],[thddot],[zdot],[thdot]])
 
         return xdot
 
@@ -44,7 +51,7 @@ class Dynamics:
     # Returns the observable states
     def Outputs(self):
         # Return them in a list and not a matrix
-        return self.state[0:2].T.tolist()[0]
+        return self.state[0:4].T.tolist()[0]
 
     # Returns all current states
     def States(self):

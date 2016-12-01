@@ -36,8 +36,6 @@ z_kp = -z_wn**2/g
 z_kd = -2*z_zeta*z_wn/g
 z_ki = -.1
 
-print (th_kp, th_kd, th_ki, z_kp, z_kd, z_ki)
-
 theta_max = 90*np.pi/180
 F_max = 15
 

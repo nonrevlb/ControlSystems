@@ -43,13 +43,13 @@ class thetaPID_ctrl:
       a1 = (2*P.sigma - P.Ts)/(2*P.sigma+P.Ts)
       a2 = 2/(2*P.sigma+P.Ts)
       self.differentiator = a1*self.differentiator \
-                          + a2*(error -self.error_d1)
+                          + a2*(theta-self.theta_d1)
 
       # UPIDate error_d1
       self.error_d1 = error 
-
+      self.theta_d1 = theta
       # PID Control to calculate T
-      F_unsat = self.kp*error + self.kd*self.differentiator
+      F_unsat = self.kp*error - self.kd*self.differentiator
 
       F_sat = self.saturate(F_unsat)
       return F_sat

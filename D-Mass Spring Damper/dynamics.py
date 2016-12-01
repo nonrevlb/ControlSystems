@@ -34,7 +34,7 @@ class Dynamics:
         # The equations of motion.
         M = np.matrix([[P.m]])
 
-        C = np.matrix([[F - P.b*zdot - P.k*z]])
+        C = np.matrix([[F - P.b*zdot - P.k*z + P.input_disturbance]])
 
         tmp = np.linalg.inv(M)*C
 
